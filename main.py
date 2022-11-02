@@ -1,55 +1,23 @@
 import numpy as np,json
 import matplotlib.pyplot as plt
 
-
-Server2,Server2,Server3=None,None,None
+ServerIDs = [2,3,4]
 x,lowdata,mediandata,highdata = [],[],[],[] 
-with open('NessAPI/scanHost_2_Detail.json','r') as f:
-    Server2 = json.load(f)
-    x.append(Server2['info']['host-ip'])
-    lowcount,mediancount,highcount = 0,0,0
-    for i in Server2['vulnerabilities']:
-        if i['severity'] == 0 :
-            lowcount += i['count']
-        elif i['severity'] == 1 :
-            mediancount += i['count']
-        elif i['severity'] == 2 :
-            highcount+= i['count']
-    lowdata.append(lowcount)
-    mediandata.append(mediancount)
-    highdata.append(highcount)
-
-with open('NessAPI/scanHost_3_Detail.json','r') as f:
-    Server2 = json.load(f)
-    x.append(Server2['info']['host-ip'])
-    lowcount,mediancount,highcount = 0,0,0
-    for i in Server2['vulnerabilities']:
-        if i['severity'] == 0 :
-            lowcount += i['count']
-        elif i['severity'] == 1 :
-            mediancount += i['count']
-        elif i['severity'] == 2 :
-            highcount+= i['count']
-    lowdata.append(lowcount)
-    mediandata.append(mediancount)
-    highdata.append(highcount)
-
-with open('NessAPI/scanHost_4_Detail.json','r') as f:
-    Server3 = json.load(f)
-    x.append(Server3['info']['host-ip'])
-    lowcount,mediancount,highcount = 0,0,0
-    for i in Server3['vulnerabilities']:
-        if i['severity'] == 0 :
-            lowcount += i['count']
-        elif i['severity'] == 1 :
-            mediancount += i['count']
-        elif i['severity'] == 2 :
-            highcount+= i['count']
-    lowdata.append(lowcount)
-    mediandata.append(mediancount)
-    highdata.append(highcount)
-
-
+for ServerID in ServerIDs:
+    with open(f'NessAPI/scanHost_{ServerID}_Detail.json','r') as f:
+        Server = json.load(f)
+        x.append(Server['info']['host-ip'])
+        lowcount,mediancount,highcount = 0,0,0
+        for i in Server['vulnerabilities']:
+            if i['severity'] == 0 :
+                lowcount += i['count']
+            elif i['severity'] == 1 :
+                mediancount += i['count']
+            elif i['severity'] == 2 :
+                highcount+= i['count']
+        lowdata.append(lowcount)
+        mediandata.append(mediancount)
+        highdata.append(highcount)
 
 plt.bar(x,lowdata,color='b',label= 'low',width=0.7,align='edge')  # 第一組數據靠左邊緣對齊
 plt.bar(x,mediandata,color='g',label = 'median',width=0.6,align='edge' )# 第二組數據置中對齊
